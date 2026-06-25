@@ -1,0 +1,75 @@
+cmake_minimum_required(VERSION 4.1)
+project(LittleCaterpillar VERSION 0.1.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+
+########################################################################
+# -------------------------------------------------------------------
+# НАСТРОЙКА ПУТЕЙ ВЫВОДА ДЛЯ ИСПОЛНЯЕМЫХ ФАЙЛОВ (.EXE)
+# -------------------------------------------------------------------
+string(TOLOWER "${CMAKE_BUILD_TYPE}" LOWER_BUILD_TYPE)
+
+if(NOT LOWER_BUILD_TYPE)
+    set(LOWER_BUILD_TYPE "debug")
+endif()
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/${LOWER_BUILD_TYPE} )
+
+#####################################################################
+
+set(SFML_DIR "C:/Cpp/SFML-310.S/lib/cmake/SFML")
+set(SFML_STATIC_LIBRARIES TRUE)
+
+
+
+# Ищем компоненты SFML локально на диске
+find_package(SFML 3.1.0 COMPONENTS Graphics Audio Window System REQUIRED)
+
+# ... далее ваш остальной код (add_executable, target_link_libraries и т.д.)
+
+# Создаем исполняемый файл
+add_executable(${PROJECT_NAME} 
+src/main.cpp
+src/Game.cpp
+src/Snake.cpp
+src/Food.cpp
+src/GameWindow.cpp
+src/StatusBar.cpp
+src/MessageBox.cpp
+src/MapManager.cpp
+src/Portal.cpp
+
+
+)
+target_include_directories(${PROJECT_NAME} PRIVATE ext/) 
+
+# Вшиваем стандартные библиотеки компилятора MinGW (WinLibs GCC) внутрь .exe
+target_link_options(${PROJECT_NAME} PRIVATE 
+    -static 
+    -static-libgcc 
+    -static-libstdc++
+)
+
+
+
+# [ВАЖНОЕ ИСПРАВЛЕНИЕ 1] Указываем компилятору, что SFML статическая
+target_compile_definitions(${PROJECT_NAME} PRIVATE SFML_STATIC)
+
+# [ВАЖНОЕ ИСПРАВЛЕНИЕ 2] Линкуем SFML и все необходимые системные библиотеки Windows
+target_link_libraries(${PROJECT_NAME} PRIVATE 
+    SFML::Graphics 
+    SFML::Audio 
+    SFML::Window 
+    SFML::System
+# Системные библиотеки Windows, необходимые для работы SFML:
+  
+)
+
+# Копирование ресурсов
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/res $<TARGET_FILE_DIR:${PROJECT_NAME}>/res
+)
+
