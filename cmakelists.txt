@@ -31,6 +31,7 @@ find_package(SFML 3.1.0 COMPONENTS Graphics Audio Window System REQUIRED)
 
 # Создаем исполняемый файл
 add_executable(${PROJECT_NAME} 
+src/resource.rc
 src/main.cpp
 src/Game.cpp
 src/Snake.cpp
@@ -66,6 +67,14 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 # Системные библиотеки Windows, необходимые для работы SFML:
   
 )
+
+# Отключаем консольное окно на Windows для релизной сборки
+if(WIN32)
+    target_link_options(LittleCaterpillar PRIVATE "$<$<CONFIG:Release>:-mwindows>")
+endif()
+
+
+
 
 # Копирование ресурсов
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

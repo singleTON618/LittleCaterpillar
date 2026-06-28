@@ -62,8 +62,8 @@ m_effectTimer = sf::Time::Zero;
 
 m_impl->food.spawnMultiple(25, 100, 100); // Спавним пул из 25 яблок
     ConfigManager::getInstance().load();
-    SoundManager::getInstance().loadSound("eat", "res/eat_1.ogg");
-    SoundManager::getInstance().loadSound("sgame", "res/doodle_pop.ogg");
+    SoundManager::getInstance().loadSound("eat", "res/eat1.ogg");
+    SoundManager::getInstance().loadSound("sgame", "res/doodlepop.ogg");
     SoundManager::getInstance().loadSound("dead", "res/dead.ogg");
 
     // [ОБНОВЛЕНО] Генерируем препятствия для 1 уровня
@@ -75,7 +75,7 @@ m_impl->food.spawnMultiple(25, 100, 100); // Спавним пул из 25 яб�
     // (Позже мы добавим в класс Food проверку на карту, чтобы еда не спавнилась в камнях)   
     
     // [ИСПРАВЛЕНО] Запускаем вашу стартовую музыку фоном по кругу
-    if (m_impl->bgMusic->openFromFile("res/doodle_pop.ogg")) { 
+    if (m_impl->bgMusic->openFromFile("res/doodlepop.ogg")) { 
         m_impl->bgMusic->setLooping(true); // Музыка будет автоматически начинаться сначала
         m_impl->bgMusic->setVolume(m_impl->musicVolume);   // 50% громкости, чтобы не оглушала
         m_impl->statusBar.setVolume(m_impl->musicVolume);

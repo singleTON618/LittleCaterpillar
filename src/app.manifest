@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  
+  
+  <!-- Раздел 1: Права администратора -->
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+    <security>
+      <requestedPrivileges>
+        <requestedExecutionLevel level="requireAdministrator" uiAccess="false"/>
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+
+  <!-- Раздел 2: Защита от размытия (DPI Awareness) -->
+  <application xmlns="urn:schemas-microsoft-com:asm.v3">
+    <windowsSettings>
+      <!-- Для Windows 10 и 11 (динамическое изменение без мыла) -->
+      <dpiAwareness xmlns="http://microsoft.com">PerMonitorV2</dpiAwareness>
+      <!-- Для совместимости со старыми версиями Windows -->
+      <dpiAware xmlns="http://microsoft.com">true/PM</dpiAware>
+    </windowsSettings>
+  </application>
+</assembly>
